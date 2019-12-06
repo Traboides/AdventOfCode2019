@@ -17,23 +17,31 @@
 import math
 
 def calulate_launch_fuel_for_mass(mass):
-    mass = int(mass)
-    return math.floor(mass / 3) - 2
+	fuel = math.floor(int(mass) / 3) - 2
+	new_fuel = calulate_fuel_needed_to_launch_fuel(fuel)
 
-assert calulate_launch_fuel_for_mass(12) == 2
-assert calulate_launch_fuel_for_mass(14) == 2
-assert calulate_launch_fuel_for_mass(1969) == 654
-assert calulate_launch_fuel_for_mass(100756) == 33583
+	return fuel + new_fuel
+
+def calulate_fuel_needed_to_launch_fuel(fuel):
+	additional_fuel = 0
+	 
+	while fuel > 0:
+		fuel = math.floor(int(fuel) / 3) - 2
+		if fuel > 0:
+			additional_fuel += fuel
+
+	return additional_fuel
+
 
 total_fuel = 0
 
 with open('massList.txt') as document:
    line = document.readline()
    while line:
-       fuel = calulate_launch_fuel_for_mass(line.strip())
-       total_fuel += fuel
-       #print("Mass of {} needs {} fuel.".format(line.strip(), fuel))
-       line = document.readline()
+	   fuel = calulate_launch_fuel_for_mass(line.strip())
+	   total_fuel += fuel
+		# print("Mass of {} needs {} fuel.".format(line.strip(), fuel))
+	   line = document.readline()
 
 
 print('Total fuel: ', total_fuel)
